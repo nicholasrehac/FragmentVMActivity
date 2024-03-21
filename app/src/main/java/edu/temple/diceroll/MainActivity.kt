@@ -16,9 +16,13 @@ class MainActivity : AppCompatActivity() {
         // Retrieve ViewModel
         val viewModel = ViewModelProvider(this)[DiceViewModel::class.java]
 
+        viewModel.dice.observe(this) {
+            numberDisplay.text = it.toString()
+        }
+
         // Fragment created using factory method and added dynamically using fragmentTransaction
         // argument is the number of sides the die will have
-        supportFragmentManager.beginTransaction()
+        if(savedInstanceState == null) supportFragmentManager.beginTransaction()
             .add(R.id.diceFragmentContainer, DiceFragment.newInstance(6))
             .commit()
     }

@@ -13,7 +13,6 @@ import kotlin.random.Random
 const val DIE_SIDES = "dIcE_SiDeS"
 
 class DiceFragment : Fragment() {
-    private var sides: Int? = null
 
     // ViewModel declaration
     private lateinit var viewModel: DiceViewModel
@@ -24,7 +23,7 @@ class DiceFragment : Fragment() {
         // Activity-scoped ViewModel initialization
         viewModel = ViewModelProvider(requireActivity())[DiceViewModel::class.java]
         arguments?.let {
-            sides = it.getInt(DIE_SIDES)
+            viewModel.setSides(it.getInt(DIE_SIDES))
         }
     }
 
@@ -34,9 +33,7 @@ class DiceFragment : Fragment() {
     ): View? {
         return inflater.inflate(R.layout.fragment_dice, container, false).apply {
             findViewById<Button>(R.id.rollButton).setOnClickListener {
-
-                // Generate random number
-                (Random.nextInt(sides!!) + 1).toString()
+                viewModel.roll()
             }
         }
     }
